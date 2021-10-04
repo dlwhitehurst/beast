@@ -10,7 +10,7 @@ The cluster does nothing at this point in way of providing value. The cluster ha
 
 To fix this, enter `build-tools.sh`.
 
-The build-tools script will build a docker image using podman and buildah that will be tagged `devops-term`. This container can be executed in a manner that includes a github repo containing declarative configuration for the Kubernetes cluster. The container also has all of the software needed to manage this huge undertaking of preparing the cluster for enterprise application deployment. Remember that the application development needs an enterprise-ready Kubernetes platform that has to be built first.
+The build-tools script will build a container image using podman and buildah that will be tagged `devops-term`. This container can be executed in a manner that includes a github repo containing declarative configuration for the Kubernetes cluster. The container also has all of the software needed to manage this huge undertaking of preparing the cluster for enterprise application deployment. Remember that the application development needs an enterprise-ready Kubernetes platform that has to be built first.
 
 Currently, the build-tools script only creates the one tool, the `devops-term` container image. The image can be run in Docker but notice it was called a container image. Actually, this image is created by podman and not Docker. To learn more about podman visit https://podman.io/ .  
 
