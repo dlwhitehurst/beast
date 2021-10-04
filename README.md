@@ -18,6 +18,8 @@ curl -L "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:
 sudo apt-get update
 sudo apt-get -y upgrade
 sudo apt-get install -y podman buildah
+
+# verify
 podman --version
-buildah version
+buildah --version
 ```
