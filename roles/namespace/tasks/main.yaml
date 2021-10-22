@@ -1,0 +1,50 @@
+---
+- name: Create Directories
+  loop: "{{ namespaces }}"
+  file:
+    path: /tmp/{{ cluster_fqdn }}/{{ item.name }}
+    state: directory
+
+- name: Template Files
+  loop: "{{ namespaces }}"
+  template:
+    src: ns.j2
+    dest: /tmp/{{ cluster_fqdn }}/{{ item.name }}/ns.yaml
+
+- name: Template Rolebindings
+  loop: "{{ namespaces }}"
+  template:
+    src: rolebinding-oidc-ns-admin.j2
+    dest: /tmp/{{ cluster_fqdn }}/{{ item.name }}/rolebinding-oidc-ns-admin.yaml
+
+- name: Template Docker Registry Secrets
+  loop: "{{ namespaces }}"
+  template:
+    src: secret-artifacts-registry.j2
+    dest: /tmp/{{ cluster_fqdn }}/{{ item.name }}/secret-artifacts-registry.yaml
+  vars:
+    config:
+      auths: "{{ { 'registry.' + cluster_fqdn : { 'auth' : ('jenkins-ci:' + jenkins.keycloak.password) | b64encode } } }}"
+
+- name: Seal Docker Registry Secrets
+  tags: [ requires_cluster ]
+  when: ('dry-run' not in ansible_run_tags) and (item.condition | default(true))
+  shell: |
+    kubeseal --format=yaml </tmp/{{ cluster_fqdn }}/{{ item.name }}/secret-artifacts-registry.yaml >/tmp/{{ cluster_fqdn }}/{{ item.name }}/secret-artifacts-registry.tmp
+    mv /tmp/{{ cluster_fqdn }}/{{ item.name }}/secret-artifacts-registry.tmp /tmp/{{ cluster_fqdn }}/{{ item.name }}/secret-artifacts-registry.yaml
+  loop: "{{ namespaces }}"
+
+- name: Apply Resources
+  tags: [ requires_cluster ]
+  when: ('dry-run' not in ansible_run_tags)
+  loop: "{{ namespaces }}"
+  ms3_inc.tavros.kube:
+    kubeconfig: '~/.kube/config'
+    state: present
+    src: /tmp/{{ cluster_fqdn }}/{{ item.name }}/ns.yaml
+
+- name: Template flux-kustomization
+  loop: "{{ namespaces }}"
+  template:
+    src: flux-kustomization.j2
+    dest: /tmp/{{ cluster_fqdn }}/platform/flux-system/watches/{{ item.name }}.yaml

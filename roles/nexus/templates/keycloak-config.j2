@@ -1,0 +1,16 @@
+{
+{%  if 'test-run' in ansible_run_tags %}
+  "disable-trust-manager": true,
+  "allow-any-hostname": true,
+{% endif  %}
+  "realm": "{{ nexus.keycloak.realm }}",
+  "auth-server-url": "https://auth.{{ cluster_fqdn }}/auth/",
+  "ssl-required": "external",
+  "resource": "nexus",
+  "verify-token-audience": true,
+  "credentials": {
+    "secret": "{{ nexus.keycloak.client_secret }}"
+  },
+  "use-resource-role-mappings": true,
+  "confidential-port": 0
+}

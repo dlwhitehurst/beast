@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+  - include_tasks: tasks/pre-flight.yaml
+
+  - import_role:
+      name: ms3_inc.tavros.kong_dns
+    vars:
+      cluster_state: absent
+
+  - import_role:
+      name: ms3_inc.tavros.kops
+    vars:
+      cluster_state: absent

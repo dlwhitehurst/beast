@@ -1,0 +1,12 @@
+Passed out in the console during the Kong DNS role. Asks for Ansible user to prepare DNS and then press return to continue.
+
+ok: [localhost] =>
+  msg: |-
+    *.sandbox-kong.tavros.dlwhitehurst.com                   IN      A       192.168.1.211
+    *.prod-kong.tavros.dlwhitehurst.com                      IN      A       192.168.1.212
+    *.tavros.dlwhitehurst.com                                IN      A       192.168.1.212
+    *.sandbox.tavros.dlwhitehurst.com                        IN      A       192.168.1.211
+
+
+    *.prod-kong.tavros.dlwhitehurst.com                      IN      A       192.168.1.212
+    *.tavros.dlwhitehurst.com                                IN      A       192.168.1.212

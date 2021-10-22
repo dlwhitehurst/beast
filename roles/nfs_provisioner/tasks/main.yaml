@@ -1,0 +1,33 @@
+---
+- name: Create Directory
+  file:
+    path: /tmp/{{ cluster_fqdn }}/platform/nfs-provisioner
+    state: directory
+
+- name: Template Files
+  template:
+    src: nfs-sc.j2
+    dest: /tmp/{{ cluster_fqdn }}/platform/nfs-provisioner/nfs-sc.yaml
+
+- name: Copy Files
+  copy:
+    src: "{{ item.name }}"
+    dest: /tmp/{{ cluster_fqdn }}/platform/nfs-provisioner/{{ item.dest | default(item.name) }}
+  when: item.condition | default(true)
+  loop:
+    - name: kustomization.yaml
+    - name: csi-nfs-controller.yaml
+    - name: csi-nfs-driverinfo.yaml
+    - name: csi-nfs-node.yaml
+    - name: rbac-csi-nfs-controller.yaml
+
+- name: Apply Resources
+  tags: [ requires_cluster ]
+  when: ('dry-run' not in ansible_run_tags)
+  loop: "{{ lookup('ms3_inc.tavros.kustomize', '/tmp/' + cluster_fqdn + '/platform/nfs-provisioner/', reorder='none') }}"
+  loop_control:
+    label: "{{ item.kind }}/{{ item.metadata.name | default('unnamed')}}"
+  ms3_inc.tavros.kube:
+    kubeconfig: '~/.kube/config'
+    definition: "{{ item }}"
+

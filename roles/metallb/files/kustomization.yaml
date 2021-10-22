@@ -1,0 +1,8 @@
+# kustomization.yaml
+namespace: metallb-system
+
+resources:
+  - ns.yaml
+  - configmap.yaml 
+  - metallb.yaml 
+

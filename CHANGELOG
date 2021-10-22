@@ -1,0 +1,22 @@
+#CHANGELOG
+
+October 12, 2021
+
+Commits today reflect the state of an unoperational Tavros on
+bare-metal K8s version 1.21.0. Tavros sets up DNS internally 
+and actually stops in an Ansible role and waits for you to prepare
+DNS records with your provider before proceeding. 
+
+I only have a single public IP but my solution so far is 
+port-forwarding to two load-balanced IPs on my 192.168.1.x network.
+This has been troublesome but it's also why my fork is a branch
+bare-metal-1.21.0.
+
+The Ansible playbook is currently commented as I've been trying to 
+do one role at a time. There are dependencies between roles and a 
+spreadsheet matrix of these dependencies would be very nice. 
+
+I'll schedule some time with Randy and maybe we can work out how to
+efficiently do this.
+
+

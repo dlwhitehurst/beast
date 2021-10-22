@@ -1,0 +1,45 @@
+---
+- name: Register gitea_login Cookies Variable
+  tags: [ requires_cluster, non_idempotent ]
+  when: ('dry-run' not in ansible_run_tags)
+  uri:
+    url: https://code.{{ cluster_fqdn }}/user/login
+    method: POST
+    follow_redirects: all
+    body_format: form-urlencoded
+    body:
+      user_name: gitea_admin
+      password: '{{ gitea.admin_password }}'
+    status_code: 200
+    validate_certs: False
+  register: gitea_login
+  until: gitea_login.status == 200
+  retries: 30
+  delay: 30
+
+- name: Add OIDC Configuration
+  tags: [ requires_cluster, non_idempotent ]
+  when: ('dry-run' not in ansible_run_tags)
+  uri:
+    url: https://code.{{ cluster_fqdn }}/admin/auths/new
+    method: POST
+    follow_redirects: all
+    body_format: form-urlencoded
+    headers:
+      Cookie: "{{ gitea_login.cookies_string }}"
+    body:
+      _csrf: "{{ gitea_login.cookies._csrf }}"
+      type: 6
+      name: keycloak
+      oauth2_provider: openidConnect
+      oauth2_key: gitea
+      oauth2_secret: "{{ gitea.keycloak.client_secret }}"
+      open_id_connect_auto_discovery_url: https://auth.{{ cluster_fqdn }}/auth/realms/{{ gitea.keycloak.realm }}/.well-known/openid-configuration
+      is_sync_enabled: on
+      is_active: on
+    status_code: 200
+    validate_certs: False
+  register: _result
+  until: _result.status == 200
+  retries: 30
+  delay: 30
