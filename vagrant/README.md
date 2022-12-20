@@ -24,6 +24,26 @@ text ...
 text ...
 
 ## Provision Nodes of a Kubernetes Cluster
-text ...
+To provision new nodes and form a Kubernetes cluster, run the following
+command.
 
+```bash
+vagrant up
+```
+
+When the provisioning is complete, `ssh` into `kmaster` and issue the 
+following `kubectl` command to validate.
+
+```bash
+kubectl get nodes
+
+# expected output
+
+NAME       STATUS   ROLES           AGE    VERSION
+kmaster    Ready    control-plane   100m   v1.24.0
+kworker1   Ready    <none>          97m    v1.24.0
+kworker2   Ready    <none>          95m    v1.24.0
+kworker3   Ready    <none>          92m    v1.24.0
+kworker4   Ready    <none>          90m    v1.24.0
+```
 
