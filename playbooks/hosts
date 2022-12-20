@@ -1,0 +1,31 @@
+all:
+  hosts:
+    kmaster:
+      ansible_host: 127.0.0.1
+      ansible_port: 2222
+      ansible_user: vagrant
+      ansible_private_key_file: /home/david/github/beast/vagrant/.vagrant/machines/kmaster/virtualbox/private_key 
+
+    kworker1:
+      ansible_host: 127.0.0.1 
+      ansible_port: 2200
+      ansible_user: vagrant
+      ansible_private_key_file: /home/david/github/beast/vagrant/.vagrant/machines/kworker1/virtualbox/private_key 
+
+    kworker2:
+      ansible_host: 127.0.0.1
+      ansible_port: 2201
+      ansible_user: vagrant
+      ansible_private_key_file: /home/david/github/beast/vagrant/.vagrant/machines/kworker2/virtualbox/private_key 
+
+    kworker3:
+      ansible_host: 127.0.0.1
+      ansible_port: 2202
+      ansible_user: vagrant
+      ansible_private_key_file: /home/david/github/beast/vagrant/.vagrant/machines/kworker3/virtualbox/private_key 
+
+    kworker4:
+      ansible_host: 127.0.0.1
+      ansible_port: 2203
+      ansible_user: vagrant
+      ansible_private_key_file: /home/david/github/beast/vagrant/.vagrant/machines/kworker4/virtualbox/private_key 

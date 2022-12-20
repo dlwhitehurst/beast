@@ -17,7 +17,7 @@ mkdir -p /home/vagrant/.kube
 cp /etc/kubernetes/admin.conf /home/vagrant/.kube/config
 chown vagrant:vagrant /home/vagrant/.kube/config
 
-echo "[TASK 6] Setup kubectk alias"
+echo "[TASK 6] Setup kubectl alias"
 echo "alias k=kubectl" >> ~/.bashrc
 source ~/.bashrc
  
