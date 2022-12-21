@@ -1,0 +1,8 @@
+- name: Provision our cluster with Linuxbrew (HomeBrew for Linux) 
+  hosts: kmaster
+  tasks:
+    - name: transfer the shell script
+      copy: src=files/homebrew.sh dest=/home/vagrant mode=0777 
+
+    - name: execute homebrew script
+      command: ./homebrew.sh

@@ -1,0 +1,16 @@
+- name: Provision our cluster with nginx-ingress 
+  hosts: kmaster
+  vars:
+    helm_chart_url: "https://helm.nginx.com/stable"
+  tasks:
+    - name: add helm repo
+      kubernetes.core.helm_repository:
+        name: nginx-stable
+        repo_url: "{{ helm_chart_url }}"
+
+    - name: install helm chart 
+      kubernetes.core.helm:
+        name: ingress
+        release_namespace: nginx-ingress
+        create_namespace: true 
+        chart_ref: nginx-stable/nginx-ingress 

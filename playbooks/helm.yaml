@@ -1,0 +1,8 @@
+- name: Provision our master with Helm 
+  hosts: kmaster
+  tasks:
+    - name: transfer the shell script
+      copy: src=files/helm.sh dest=/home/vagrant mode=0777 
+
+    - name: execute helm script
+      command: ./helm.sh

@@ -1,0 +1,23 @@
+- name: Provision our cluster with cert-mgr 
+  hosts: kmaster
+  vars:
+    helm_chart_url: "https://charts.jetstack.io"
+  tasks:
+    - name: add helm repo
+      kubernetes.core.helm_repository:
+        name: jetstack 
+        repo_url: "{{ helm_chart_url }}"
+    
+    - name: copy custom-values.yaml
+      copy: src=files/custom-values.yaml dest=/home/vagrant mode=0777
+
+    - name: install helm chart 
+      kubernetes.core.helm:
+        name: cert-mgr 
+        release_namespace: cert-mgr 
+        create_namespace: true 
+        chart_ref: jetstack/cert-manager
+        update_repo_cache: True
+        values_files:
+        - custom-values.yaml
+
