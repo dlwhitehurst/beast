@@ -1,8 +1,12 @@
 - name: Provision our cluster with metallb
   hosts: kmaster
   tasks:
-    - name: transfer the shell script
+    - name: copy script 
       copy: src=files/metallb.sh dest=/home/vagrant mode=0777 
 
-    - name: execute metallb script
-      command: ./metallb.sh
+    - name: copy configmap 
+      copy: src=files/metallb-pools.yaml dest=/home/vagrant mode=0777 
+
+    - name: run script
+      command: /home/vagrant/metallb.sh
+
