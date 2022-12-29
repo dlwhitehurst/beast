@@ -5,8 +5,8 @@
 
 rm *-ssh-config
 
-vagrant ssh-config kmaster > kmaster-ssh-config
-vagrant ssh-config kworker1 > kworker1-ssh-config
-vagrant ssh-config kworker2 > kworker2-ssh-config
-vagrant ssh-config kworker3 > kworker3-ssh-config
-vagrant ssh-config kworker4 > kworker4-ssh-config
+vagrant ssh-config bmaster > bmaster-ssh-config
+vagrant ssh-config bnode1 > bnode1-ssh-config
+vagrant ssh-config bnode2 > bnode2-ssh-config
+vagrant ssh-config bnode3 > bnode3-ssh-config
+vagrant ssh-config bnode4 > bnode4-ssh-config

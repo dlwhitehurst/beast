@@ -1,5 +1,5 @@
 - name: Provision our cluster with cert-mgr 
-  hosts: kmaster
+  hosts: bmaster
   vars:
     helm_chart_url: "https://charts.jetstack.io"
   tasks:

@@ -1,5 +1,5 @@
 - name: Provision our cluster with nginx-ingress 
-  hosts: kmaster
+  hosts: bmaster
   vars:
     helm_chart_url: "https://helm.nginx.com/stable"
   tasks:

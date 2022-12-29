@@ -1,0 +1,46 @@
+- name: Provision our nodes for Kubeadm installation
+  hosts: all
+  become: true
+  tasks:
+    - name: Apt failsafe 
+      ansible.builtin.command: apt update 
+      become: true
+    
+    - name: Install docker
+      apt: 
+        name: ['docker.io']
+        state: present
+        update_cache: false
+
+    - name: Add user to docker group (without 'args')
+      ansible.builtin.command: usermod -aG docker david 
+      become: true
+
+    - name: Set cgroupdriver to systemd
+      ansible.builtin.shell: |
+        cat > /etc/docker/daemon.json <<EOF
+        {
+          "exec-opts": ["native.cgroupdriver=systemd"],
+          "log-driver": "json-file",
+          "log-opts": {
+            "max-size": "100m"
+           },
+           "storage-driver": "overlay2"
+        }
+        EOF
+      args:
+        executable: /bin/bash
+
+    - name: Debug for docker info
+      ansible.builtin.debug:
+        msg: "{{ lookup('ansible.builtin.pipe', 'docker info') }}"
+
+    - name: Allow iptables to see bridged traffic
+      ansible.builtin.shell: |
+        cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+          net.bridge.bridge-nf-call-ip6tables = 1
+          net.bridge.bridge-nf-call-iptables = 1
+        EOF
+        sudo sysctl --system
+      args:
+        executable: /bin/bash

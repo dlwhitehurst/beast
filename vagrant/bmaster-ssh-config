@@ -1,0 +1,11 @@
+Host bmaster
+  HostName 127.0.0.1
+  User vagrant
+  Port 2200
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+  PasswordAuthentication no
+  IdentityFile /home/david/github/beast/vagrant/.vagrant/machines/bmaster/virtualbox/private_key
+  IdentitiesOnly yes
+  LogLevel FATAL
+

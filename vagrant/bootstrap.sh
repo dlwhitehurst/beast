@@ -43,7 +43,10 @@ curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - >/
 apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main" >/dev/null 2>&1
 
 echo "[TASK 7] Install Kubernetes components (kubeadm, kubelet and kubectl)"
-apt install -qq -y kubeadm=1.24.0-00 kubelet=1.24.0-00 kubectl=1.24.0-00 >/dev/null 2>&1
+apt install -qq -y kubeadm=1.25.5-00 kubelet=1.25.5-00 kubectl=1.25.5-00 >/dev/null 2>&1
+
+echo "[TASK 7.1] Install net-tools"
+apt install -y net-tools >/dev/null 2>&1
 
 echo "[TASK 8] Enable ssh password authentication"
 sed -i 's/^PasswordAuthentication .*/PasswordAuthentication yes/' /etc/ssh/sshd_config
@@ -54,11 +57,11 @@ echo "[TASK 9] Set root password"
 echo -e "kubeadmin\nkubeadmin" | passwd root >/dev/null 2>&1
 echo "export TERM=xterm" >> /etc/bash.bashrc
 
-echo "[TASK 10] Update /etc/hosts file"
-cat >>/etc/hosts<<EOF
-192.168.1.100   kmaster.example.com      kmaster
-192.168.1.101   kworker1.example.com     kworker1
-192.168.1.102   kworker2.example.com     kworker2
-192.168.1.103   kworker3.example.com     kworker3
-192.168.1.104   kworker4.example.com     kworker4
+#echo "[TASK 10] Update /etc/hosts file"
+#cat >>/etc/hosts<<EOF
+#192.168.1.100   bmaster.me.com    bmaster
+#192.168.1.101   bnode1.me.com     bnode1
+#192.168.1.102   bnode2.me.com     bnode2
+#192.168.1.103   bnode3.me.com     bnode3
+#192.168.1.104   bnode4.me.com     bnode4
 EOF
