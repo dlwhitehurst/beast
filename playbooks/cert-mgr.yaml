@@ -9,7 +9,7 @@
         repo_url: "{{ helm_chart_url }}"
     
     - name: copy custom-values.yaml
-      copy: src=files/custom-values.yaml dest=/home/vagrant mode=0777
+      copy: src=files/custom-values.yaml dest=/home/david mode=0777
 
     - name: install helm chart 
       kubernetes.core.helm:

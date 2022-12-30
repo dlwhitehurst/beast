@@ -1,8 +1,0 @@
----
-- name: Provision our cluster with metallb
-  tasks:
-    - name: transfer the shell script
-      copy: src=../files/metallb.sh dest=/home/vagrant mode=0777 
-
-    - name: execute metallb script
-      command: ./metallb.sh

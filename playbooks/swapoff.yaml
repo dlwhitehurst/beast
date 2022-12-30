@@ -1,5 +1,0 @@
- name: Turn swap off
-  become: True
-  tasks:
-    - name: execute command 
-      command: swapoff -a 

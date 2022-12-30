@@ -2,7 +2,7 @@
   hosts: bmaster
   tasks:
     - name: transfer the shell script
-      copy: src=files/helm.sh dest=/home/vagrant mode=0777 
+      copy: src=files/helm.sh dest=/home/david mode=0777 
 
     - name: execute helm script
       command: ./helm.sh

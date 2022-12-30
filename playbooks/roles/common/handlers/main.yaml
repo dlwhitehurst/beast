@@ -1,7 +1,0 @@
----
-- name: netfilter-persistent start
-  systemd:
-    name: netfilter-persistent
-    enabled: yes
-    state: started
-

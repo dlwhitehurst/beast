@@ -1,8 +1,0 @@
----
-- hosts: all
-  user: david
-  become: true
-  roles:
-    - common
-    - docker 
-    - k8s

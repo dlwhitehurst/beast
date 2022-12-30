@@ -8,3 +8,6 @@ bnode4 ansible_host=192.168.1.23 ansible_port=22 ansible_user=david ansible_priv
 [master]
 bmaster ansible_host=192.168.1.15 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/id_rsa
 
+[external]
+nfs ansible_host=192.168.1.28 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/id_rsa
+

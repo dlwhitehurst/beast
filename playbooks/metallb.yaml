@@ -1,3 +1,15 @@
+---
+# This playbook contains all tasks required to install Metallb on
+# a Kubernetes cluster with Flannel networking and a cluster CIDR
+# that's expected to be 10.244.0.0/16 per Metallb with Flannel.
+#
+# This also creates the new IPAddressPool instead of ConfigMap
+# and a Layer2 Advertisement. NOTE: this resource must be provided
+# for the LoadBalancer to work with ARP. Also, configuration for
+# StrictARP is buried in the Metallb shell script that's run on 
+# the master node.
+#
+#  
 - name: Provision our cluster with metallb
   hosts: master
   tasks:
@@ -13,3 +25,30 @@
 
     - name: execute metallb script
       command: ./metallb.sh
+
+    - name: Create IPAdressPool 
+      ansible.builtin.shell: |
+        cat <<EOF | kubectl create -f -
+          apiVersion: metallb.io/v1beta1
+          kind: IPAddressPool
+          metadata:
+            name: first-pool
+            namespace: metallb-system
+          spec:
+            addresses:
+            - 192.168.1.220-192.168.1.230
+        EOF
+      args:
+        executable: /bin/bash
+
+    - name: Create L2Advertisement 
+      ansible.builtin.shell: |
+        cat <<EOF | kubectl create -f -
+          apiVersion: metallb.io/v1beta1
+          kind: L2Advertisement
+          metadata:
+            name: l2-advertisement 
+            namespace: metallb-system
+        EOF
+      args:
+        executable: /bin/bash

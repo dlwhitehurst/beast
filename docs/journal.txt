@@ -1,10 +1,17 @@
 # todo
-- ansible without passwords with ssh
-- set up NFS server vm and use as ansible test machine
+- (C) ansible without passwords with ssh
+- (C) set up NFS server vm and use as ansible test machine (just machine not NFS yet)
 - add manual things and refactor ansible (destroy/rebuild/reprovision)
+- Move ADRs from other repo into here.
+- Choose storage (NFS? not sure)
 
 # dec 30 2022
 - cluster ready
 - metallb and tested 192.168.1.220
 - using virtualbox and ansible with ssh (passwords)
 
+- set up NFS server vm and use as ansible test machine
+- working on nfs server as passwordless
+- success, give servers public keys + add user to /etc/sudoers (NOPASSWD)
+- all server/hosts set up with passwordless
+- test ingress and cert-mgr with apache pod (apache.dlwhitehurst.com)
