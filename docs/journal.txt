@@ -1,0 +1,10 @@
+# todo
+- ansible without passwords with ssh
+- set up NFS server vm and use as ansible test machine
+- add manual things and refactor ansible (destroy/rebuild/reprovision)
+
+# dec 30 2022
+- cluster ready
+- metallb and tested 192.168.1.220
+- using virtualbox and ansible with ssh (passwords)
+

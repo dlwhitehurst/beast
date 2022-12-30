@@ -1,9 +1,10 @@
 [all]
-bmaster ansible_host=192.168.1.11 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/id_rsa
-bnode1 ansible_host=192.168.1.13 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/id_rsa
-bnode2 ansible_host=192.168.1.15 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/id_rsa
-bnode3 ansible_host=192.168.1.20 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/id_rsa
-bnode4 ansible_host=192.168.1.21 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/id_rsa
+bmaster ansible_host=192.168.1.15 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/id_rsa
+bnode1 ansible_host=192.168.1.20 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/id_rsa
+bnode2 ansible_host=192.168.1.21 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/id_rsa
+bnode3 ansible_host=192.168.1.22 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/id_rsa
+bnode4 ansible_host=192.168.1.23 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/id_rsa
 
-
+[master]
+bmaster ansible_host=192.168.1.15 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/id_rsa
 

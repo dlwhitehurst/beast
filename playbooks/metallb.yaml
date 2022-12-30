@@ -1,14 +1,14 @@
 - name: Provision our cluster with metallb
-  hosts: bmaster
+  hosts: master
   tasks:
     - name: transfer the shell script
-      copy: src=files/metallb.sh dest=/home/vagrant mode=0777
+      copy: src=files/metallb.sh dest=/home/david mode=0777
 
     - name: Change file ownership, group and permissions
       ansible.builtin.file:
         path: ./metallb.sh 
-        owner: vagrant 
-        group: vagrant 
+        owner: david 
+        group: david 
         mode: '0777'
 
     - name: execute metallb script

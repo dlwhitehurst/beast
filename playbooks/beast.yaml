@@ -2,38 +2,20 @@
   hosts: all
   become: true
   tasks:
-    - name: Apt failsafe 
+    - name: Apt failsafe (***Refactor later***) 
       ansible.builtin.command: apt update 
       become: true
-    
-    - name: Install docker
-      apt: 
-        name: ['docker.io']
-        state: present
-        update_cache: false
 
-    - name: Add user to docker group (without 'args')
-      ansible.builtin.command: usermod -aG docker david 
-      become: true
-
-    - name: Set cgroupdriver to systemd
+    - name: Kernel modules 
       ansible.builtin.shell: |
-        cat > /etc/docker/daemon.json <<EOF
-        {
-          "exec-opts": ["native.cgroupdriver=systemd"],
-          "log-driver": "json-file",
-          "log-opts": {
-            "max-size": "100m"
-           },
-           "storage-driver": "overlay2"
-        }
+        tee /etc/modules-load.d/containerd.conf <<EOF
+        overlay
+        br_netfilter
         EOF
+        modprobe overlay
+        modprobe br_netfilter 
       args:
         executable: /bin/bash
-
-    - name: Debug for docker info
-      ansible.builtin.debug:
-        msg: "{{ lookup('ansible.builtin.pipe', 'docker info') }}"
 
     - name: Allow iptables to see bridged traffic
       ansible.builtin.shell: |
@@ -44,3 +26,54 @@
         sudo sysctl --system
       args:
         executable: /bin/bash
+
+    - name: (***New***) Enable packet forwarding for ipv4 
+      ansible.builtin.shell: |
+        cat <<EOF | sudo tee /etc/sysctl.d/99-sysctl.conf
+          net.ipv4.ip_forward=1
+        EOF
+        sudo sysctl --system
+      args:
+        executable: /bin/bash
+
+    - name: Packages for containerd and kubernetes to use 
+      apt: 
+        name: ['apt-transport-https','curl','gnupg2','software-properties-common','ca-certificates']
+        state: present
+        update_cache: true
+
+    - name: Copy apt repo script (***Refactor later***) 
+      ansible.builtin.copy:
+        src: files/kubeapt.sh
+        dest: /home/david 
+        owner: root 
+        group: root
+        mode: '0700'
+
+    - name: Run apt script 
+      ansible.builtin.command: /home/david/kubeapt.sh 
+      become: true
+
+    - name: Run apt update just prior 
+      ansible.builtin.command: apt update 
+      become: true
+  
+    - name: Now we install Kubernetes 
+      ansible.builtin.command: apt install -y kubeadm kubelet kubectl kubernetes-cni 
+      become: true
+
+    - name: Lock installation 
+      ansible.builtin.command: apt-mark hold kubeadm kubelet kubectl 
+      become: true
+ 
+    - name: Swap off 
+      ansible.builtin.command: swapoff -a 
+      become: true
+
+    - name: Comment fstab
+      ansible.builtin.command: sed -i '/swap/s/^/#/g' /etc/fstab
+      args:
+        warn: false
+      become: true
+
+        

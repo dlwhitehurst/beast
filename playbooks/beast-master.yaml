@@ -1,0 +1,10 @@
+- name: Kubeadm initialization 
+  hosts: master 
+  become: true
+  tasks:
+    - name: Initialize
+      ansible.builtin.shell: |
+        kubeadm init --pod-network-cidr=10.244.0.0/16 > /home/david/init.out
+      args:
+        executable: /bin/bash
+        
