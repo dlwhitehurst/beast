@@ -4,6 +4,8 @@
 - add manual things and refactor ansible (destroy/rebuild/reprovision)
 - Move ADRs from other repo into here.
 - Choose storage (NFS? not sure)
+- document nfs and rook-ceph installs
+- document wikijs helm install everything
 
 # dec 30 2022
 - cluster ready
@@ -15,3 +17,12 @@
 - success, give servers public keys + add user to /etc/sudoers (NOPASSWD)
 - all server/hosts set up with passwordless
 - test ingress and cert-mgr with apache pod (apache.dlwhitehurst.com)
+
+# as of jan 6 2023
+- rook-ceph-block and nfs-client storageclasses
+- both annotated is-default (current rook-ceph default)
+- wikijs helm installed, delete two ingresses, one created with helm for minikube ???
+- create an ingress for wikijs, wikijs namespace
+- https://wikijs.dlwhitehurst.com in place
+
+

@@ -9,5 +9,22 @@ bnode4 ansible_host=192.168.1.23 ansible_port=22 ansible_user=david ansible_priv
 bmaster ansible_host=192.168.1.15 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/id_rsa
 
 [external]
-nfs ansible_host=192.168.1.28 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/id_rsa
+sandbox ansible_host=192.168.1.28 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/id_rsa
 
+[ceph]
+ceph-admin ansible_host=192.168.1.33 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/ansible_rsa
+ceph-mon ansible_host=192.168.1.10 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/ansible_rsa
+ceph-osd1 ansible_host=192.168.1.11 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/ansible_rsa
+ceph-osd2 ansible_host=192.168.1.25 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/ansible_rsa
+ceph-osd3 ansible_host=192.168.1.31 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/ansible_rsa
+
+[admin]
+ceph-admin ansible_host=192.168.1.33 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/ansible_rsa
+
+[mon]
+ceph-mon ansible_host=192.168.1.10 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/ansible_rsa
+
+[osd]
+ceph-osd1 ansible_host=192.168.1.11 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/ansible_rsa
+ceph-osd2 ansible_host=192.168.1.25 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/ansible_rsa
+ceph-osd3 ansible_host=192.168.1.31 ansible_port=22 ansible_user=david ansible_private_key_file=/home/david/.ssh/ansible_rsa

@@ -1,0 +1,45 @@
+---
+- name: Prepare all Ceph cluster machines with 
+  hosts: ceph
+  become: true
+  tasks:
+    - name: append hosts file 
+      ansible.builtin.shell: |
+        cat <<EOF | sudo tee /etc/hosts
+        127.0.0.1 localhost
+        127.0.1.1 ubuntu
+
+        ::1          ip6-localhost ip6-loopback
+        fe00::0      ip6-localnet
+        ff00::0      ip6-mcastprefix
+        ff02::1      ip6-allnodes
+        ff02::2      ip6-allrouters 
+
+        192.168.1.33 ceph-admin
+        192.168.1.10 ceph-mon
+        192.168.1.11 ceph-osd1
+        192.168.1.25 ceph-osd2
+        192.168.1.31 ceph-osd3
+        EOF
+      args:
+        executable: /bin/bash
+
+    - name: Run apt update just prior 
+      ansible.builtin.command: apt update 
+      become: true
+  
+    - name: install chrony
+      ansible.builtin.command: apt install -y chrony 
+      become: true
+
+    - name: install docker community edition (ce)
+      ansible.builtin.shell: |
+        apt install apt-transport-https ca-certificates curl gnupg-agent software-properties-common -y
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor > /etc/apt/trusted.gpg.d/docker-ce.gpg
+        echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -sc) stable" > /etc/apt/sources.list.d/docker-ce.list
+        apt update
+        apt install docker-ce docker-ce-cli containerd.io -y
+        systemctl enable --now docker
+      args:
+        executable: /bin/bash
+      become: true
