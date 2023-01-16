@@ -22,3 +22,6 @@ helm repo update
 helm install wikijs requarks/wiki -n wikijs -f wikijs-values.yaml
 ```
 After the chart was installed, I created a secret for the external postgres password using the deployment YAML as a guide. Ingress was configured in the values file using my DNS.
+
+Ref: https://docs.requarks.io/install/kubernetes
+Refactor Option: create a custom helm chart, adding the PostgreSQL secret in the wikijs namespace.
