@@ -13,18 +13,12 @@ helm repo update
 helm install bookstack dlwhitehurst/bookstack -n bookstack -f values.yaml
 ```
 
-## Wikijs
-Wikijs was installed with default values and a Postgresql sub-chart. Here's the command that was used.
+## Wikijs (updated)
+Wikijs was installed with a values file found in the `wikijs/` directory here. A secret was also created after the initial helm installation and then the broken pod deleted. The deployment then creates a new pod that picks up the external postgresql password and everything works. 
 
 ```bash
 helm repo add requarks https://charts.js.wiki
 helm repo update
-helm install wikijs requarks/wiki -n wikijs
+helm install wikijs requarks/wiki -n wikijs -f wikijs-values.yaml
 ```
-After the chart was installed, I created an ingress for the hosting. Two things need to change.
-This is:
-
-1. externalize Postgres and use the database for any need of Postgres for this and any other hostings
-that may require a Postgresql database.
-
-2. Use a values file and set up a proper ingress at time of the Helm chart install.
+After the chart was installed, I created a secret for the external postgres password using the deployment YAML as a guide. Ingress was configured in the values file using my DNS.
